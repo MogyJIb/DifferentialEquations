@@ -9,6 +9,10 @@
 #include "Designer.h"
 #include "Scale.h"
 
+
+#define INPUT_INFORM_TEXT _T("The format of inputed differential \n equation should be as y'=f(x,y).\n\n For example, if you have \n equation y'=y-x^2, you  should \n input 'y-x^2'.")
+#define BUTTON_E_TITLE _T("Eyler")
+#define BUTTON_RK_TITLE _T("Runge-Kutta")
 #define DIFFEQ_LABLE_TEXT _T("Enter differential equation here")
 #define INITCOORD_LABLE_TEXT _T("Enter the initial coordinates")
 #define STARTCOORDF_LABLE_TEXT _T("y ( ")
@@ -24,7 +28,11 @@
 #define ID_EDITYSTART 105
 #define ID_EDITXSTART 106
 
+#define ID_BUTTONE 107
+#define ID_BUTTONRK 108
+
 HWND hEditXa, hEditXb, hEditYa, hEditYb, hEditFunc, hEditXstart, hEditYstart;
+HWND hButtonE, hButtonRK;
 
 static double margin = 60, marginRight = 300;
 
@@ -32,7 +40,7 @@ static double margin = 60, marginRight = 300;
 Scale getScale(RECT wndRect);
 void createEdit(HWND hWndParent, HWND &hEdit, int id);
 
-void createLable(HWND hWndParent, HWND &hEdit, int id);
+void createButton(HWND hWndParent, HWND &hButton, int id, TCHAR* title);
 
 // Прототип главной функции
 LRESULT CALLBACK WndProc(HWND,				// Дескриптор окна 
@@ -108,7 +116,7 @@ int APIENTRY _tWinMain(HINSTANCE This,		// Дескриптор текущего приложения
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	static Designer designer = Designer();
 	static double xA = 0, xB = 0, yA = 0, yB = 0;
-	
+	static bool isEdraw = true, isRKdraw = false;
 
 	static RECT wndRect = RECT();
 	// Обработчик сообщений 
@@ -137,7 +145,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		createEdit(hWnd, hEditYstart, ID_EDITYSTART);
 		Edit_SetText(hEditYstart, _T("0"));
 
-	
+		createButton(hWnd, hButtonE, ID_BUTTONE,BUTTON_E_TITLE);
+		createButton(hWnd, hButtonRK, ID_BUTTONRK, BUTTON_RK_TITLE);
+
 		break;
 	}
 	case WM_SIZE: {
@@ -191,6 +201,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			height,        // height of client area 
 			TRUE);
 
+		MoveWindow(hButtonE,
+			xWndSize - 270, 220,                 // starting x- and y-coordinates 
+			width +70,        // width of client area 
+			height+15,        // height of client area 
+			TRUE);
+
+		MoveWindow(hButtonRK,
+			xWndSize - 150, 220,                 // starting x- and y-coordinates 
+			width + 70,        // width of client area 
+			height + 15,        // height of client area 
+			TRUE);
+
 
 		break;
 	}
@@ -214,10 +236,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		SetRect(&rt, wndRect.right - 190, 170, wndRect.right - 10, 190);
 		DrawText(hdc, STARTCOORDS_LABLE_TEXT, _tcsclen(STARTCOORDF_LABLE_TEXT), &rt, DT_LEFT);
 
+		SetRect(&rt, wndRect.right - 265, 280, wndRect.right - 10, 400);
+		DrawText(hdc, INPUT_INFORM_TEXT, _tcsclen(INPUT_INFORM_TEXT), &rt, DT_LEFT| DT_EDITCONTROL);
+
 
 		designer.drawCoordinateAxes(hdc, scale);
+
 		try {
-			designer.drawFunctionE(hdc, scale);
+			if (isEdraw) {
+				designer.drawFunctionE(hdc, scale);
+			}
+			if (isRKdraw) {
+				designer.drawFunctionRK(hdc, scale);
+			}
 		}
 		catch (int ex) {
 
@@ -249,6 +280,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 				
 			}
+		case ID_BUTTONE: {
+			switch (HIWORD(wParam))
+			{
+			case BN_CLICKED: {
+				RECT rt = RECT();
+				SetRect(&rt, margin, margin, wndRect.right - marginRight, wndRect.bottom - margin);
+				
+				isEdraw = true;
+				isRKdraw = false;
+				InvalidateRect(hWnd, &rt, TRUE);
+				break;
+			}
+			}
+			break;
+		}
+		case ID_BUTTONRK: {
+			switch (HIWORD(wParam))
+			{
+			case BN_CLICKED: {
+				RECT rt = RECT();
+				SetRect(&rt, margin, margin, wndRect.right - marginRight, wndRect.bottom - margin);
+
+				isRKdraw = true;
+				isEdraw = false;
+				InvalidateRect(hWnd, &rt, TRUE);
+				break;
+			}
+			}
+			break;
+		}
 			break;
 		default: return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -316,4 +377,16 @@ void createEdit(HWND hWndParent, HWND &hEdit, int id) {
 		NULL);        // pointer not needed 
 }
 
+void createButton(HWND hWndParent, HWND &hButton, int id, TCHAR* title) {
+	hButton = CreateWindowEx(
+		0, _T("BUTTON"),   // predefined class 
+		title,         // no window title 
+		WS_CHILD | WS_VISIBLE | WS_BORDER |
+		BS_DEFPUSHBUTTON,
+		0, 0, 0, 0,   // set size in WM_SIZE message 
+		hWndParent,         // parent window 
+		(HMENU)id,   // edit control ID 
+		(HINSTANCE)GetWindowLong(hWndParent, GWL_HINSTANCE),
+		NULL);
+}
 

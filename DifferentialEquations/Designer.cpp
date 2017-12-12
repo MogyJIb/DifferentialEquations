@@ -67,9 +67,9 @@ void Designer::drawFunctionE(HDC hdc, Scale scale) {
 
 	ProcessorRpn processorRpn = ProcessorRpn(scale.func);
 
-	double xA = scale.xA, xB = scale.xB,
-		yA = scale.yA, 
-		h = (xB - xA) /1000;
+	double xA = scale.xStart, xB = scale.xB,
+		yA = scale.yStart, 
+		h = (xB - xA) /500;
 
 	double yk1 = yA, yk = yA+ h*processorRpn.function(xA, yA),  xk = xA+h,xk1= xk;
 
@@ -93,7 +93,7 @@ void Designer::drawFunctionRK(HDC hdc, Scale scale) {
 
 	ProcessorRpn processorRpn = ProcessorRpn(scale.func);
 
-	double xA = scale.xA, xB = scale.xB,yA = scale.yA,
+	double xA = scale.xStart, xB = scale.xB,yA = scale.yStart,
 		h = (xB - xA) / 1000;
 
 	double k1 = h*processorRpn.function(xA, yA),
