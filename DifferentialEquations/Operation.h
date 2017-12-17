@@ -22,6 +22,7 @@ using namespace std;
 #define TAN _T("tg")
 #define POW _T("^")
 #define LG _T("lg")
+#define LN _T("ln")
 #define OPBRÑK _T("(")
 #define CLBRÑK _T(")")
 
@@ -31,7 +32,7 @@ class Operation
 private:
 	const  set<tstring> LOW_PRIORITY = { MINUS,PLUS };
 	const  set<tstring> HIGH_PRIORITY = { DIV,MUL,POW };
-	const  set<tstring> HIGHEST_PRIORITY = { SQRT,SIN, COS,TAN,LG };
+	const  set<tstring> HIGHEST_PRIORITY = { SQRT,SIN, COS,TAN,LG ,LN };
 
 	bool contain(set<tstring> mySet, tstring element);											//check if set contain the ellement
 

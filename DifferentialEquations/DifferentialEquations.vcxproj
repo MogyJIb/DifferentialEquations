@@ -115,15 +115,22 @@
     <ClCompile Include="Designer.cpp" />
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="Operation.cpp" />
+    <ClCompile Include="ProcessorDE.cpp" />
     <ClCompile Include="ProcessorRpn.cpp" />
     <ClCompile Include="Scale.cpp" />
+    <ClCompile Include="ScilabScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Converter.h" />
     <ClInclude Include="Designer.h" />
     <ClInclude Include="Operation.h" />
+    <ClInclude Include="ProcessorDE.h" />
     <ClInclude Include="ProcessorRpn.h" />
     <ClInclude Include="Scale.h" />
+    <ClInclude Include="ScilabScript.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

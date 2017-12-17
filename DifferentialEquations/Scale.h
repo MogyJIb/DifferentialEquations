@@ -7,10 +7,17 @@ class Scale
 {
 
 public:
-	Scale(double xStart, double yStart,double xA, double xB, double yA, double yB, RECT wndRect, TCHAR* func);
+	Scale();
+
+	void setScale(double xA, double xB, double yA, double yB, RECT wndRect);
+	void setScale(double xStart,double xEnd,double yStart, TCHAR* func);
 
 	RECT wndRect;
 	TCHAR func[100];
+
+
+	const int count = 500;
+	double res[1000];
 
 	double xA;
 	double xB;
@@ -24,7 +31,9 @@ public:
 	double fY;
 
 	double xStart;
+	double xEnd;
 	double yStart;
+	double yEnd;
 
 	double DgridX;
 	double DgridY;

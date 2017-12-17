@@ -33,6 +33,12 @@
     <ClCompile Include="Scale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProcessorDE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScilabScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProcessorRpn.h">
@@ -50,5 +56,14 @@
     <ClInclude Include="Scale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProcessorDE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScilabScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

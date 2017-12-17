@@ -114,6 +114,17 @@ double ProcessorRpn::makeUnOperation(double firstOper, tstring operation) {
 		}
 		return res;
 	}
+	else if (!operation.compare(LN)) {
+		double res = 0;
+		_asm {
+			finit
+			fldln2
+			fld firstOper
+			fyl2x
+			fst res
+		}
+		return res;
+	}
 	else if (!operation.compare(SQRT)) {
 		double res = 0;
 		_asm {

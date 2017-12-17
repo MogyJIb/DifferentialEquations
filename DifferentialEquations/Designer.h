@@ -1,22 +1,24 @@
 #pragma once
 
 
-#include "ProcessorRpn.h"
 
+
+#include <tchar.h>
+#include <stdio.h>
 #include "Scale.h"
 #include <cmath>
 
 class Designer
 {
 private:
-	int getXcoord(double xVal, Scale scale);
-	int getYcoord(double yVal, Scale scale);
+	double getXcoord(double xVal, Scale scale);
+	double getYcoord(double yVal, Scale scale);
+	HPEN hpen = (HPEN)GetStockObject(BLACK_PEN);
 public:
 	Designer();
 
 	void drawCoordinateAxes(HDC hdc, Scale scale);
-	void drawFunctionE(HDC hdc, Scale scale);
-	void drawFunctionRK(HDC hdc, Scale scale);
+	void drawFunction(HDC hdc, Scale scale);
 
 	~Designer();
 };

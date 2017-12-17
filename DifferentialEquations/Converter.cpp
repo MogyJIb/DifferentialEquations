@@ -36,8 +36,10 @@ list<tstring> Converter::makeRpnOperandList(const TCHAR* inputedString) {
 		}
 		else {
 			if (operation.isOperation(operand)) {
-				if (!operationStack.empty() && operation.isFirstPriorityNotLowerThenSecond(operand, operationStack.top()))
+				if (!operationStack.empty() &&
+					operation.isFirstPriorityNotLowerThenSecond(operand, operationStack.top()))
 					emptyOperationStack(operationStack, operandStack);
+
 				operationStack.push(operand);
 			}
 			else
